@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'contactListing.dart';
 
@@ -34,7 +35,10 @@ class _ContactScreenState extends State<ContactScreen> {
 
   void _addContact() {
     setState(() {
-      contacts.add({'name':'smith'});
+      final faker=Faker();
+      final person=faker.person;
+
+      contacts.add({'name':'${person.firstName()} ${person.lastName()}'});
     });
   }
 
