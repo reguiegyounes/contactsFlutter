@@ -41,6 +41,11 @@ class _ContactScreenState extends State<ContactScreen> {
       contacts.add({'name':'${person.firstName()} ${person.lastName()}'});
     });
   }
+  void _deleteContact(String id) {
+    setState(() {
+      contacts.removeWhere((contact) => contact['name']==id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,7 @@ class _ContactScreenState extends State<ContactScreen> {
       body:ContactListing(
         contacts: contacts,
         onAdd: _addContact,
+        onDelete: _deleteContact,
         ),
       floatingActionButton:Row(
         mainAxisAlignment: MainAxisAlignment.end,

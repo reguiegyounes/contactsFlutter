@@ -4,7 +4,8 @@ import 'noContacts.dart';
 class ContactListing extends StatelessWidget {
   final List contacts;
   final VoidCallback onAdd;
-  ContactListing({this.onAdd,this.contacts});
+  final Function(String id) onDelete;
+  ContactListing({this.onAdd,this.contacts,this.onDelete});
   @override
   Widget build(BuildContext context) {
     return contacts.isEmpty? 
@@ -23,7 +24,9 @@ class ContactListing extends StatelessWidget {
               ),
               title: Text(contact['name']),
               trailing: FlatButton(
-                onPressed: (){},
+                onPressed:(){
+                  onDelete(contact['name']);
+                },
                 child:Icon(
                   Icons.delete,
                   size: 30,
