@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NoContact extends StatelessWidget {
-
+  final VoidCallback onAdd;
+  NoContact({this.onAdd});
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -17,7 +18,7 @@ class NoContact extends StatelessWidget {
               'No contacts listed',
             ),
             FlatButton(
-              onPressed: (){},
+              onPressed: onAdd,
               child: Text(
                 'Add your first',
                 style: TextStyle(fontSize: 20,color: Colors.white),

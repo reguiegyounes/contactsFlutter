@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:client/src/noContacts.dart';
+import 'contactListing.dart';
 
 
 
@@ -45,12 +45,10 @@ class _ContactScreenState extends State<ContactScreen> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body:contacts.isEmpty? NoContact():ListView(
-        children:contacts.map<Widget>(
-          (contact) =>ListTile(
-            title: Text(contact['name']),
-          )).toList(),
-      ),
+      body:ContactListing(
+        contacts: contacts,
+        onAdd: _addContact,
+        ),
       floatingActionButton:Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
