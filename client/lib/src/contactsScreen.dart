@@ -1,30 +1,15 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'contactListing.dart';
+import 'api.dart';
 
 
 
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Contacts List',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ContactScreen(title: 'Contacts List'),
-    );
-  }
-}
 
 class ContactScreen extends StatefulWidget {
   ContactScreen({Key key, this.title}) : super(key: key);
   final String title;
-
+  final ContactsApi api=ContactsApi();
   @override
   _ContactScreenState createState() => _ContactScreenState();
 }
@@ -32,6 +17,26 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
   
   List contacts=[];
+  bool loading =true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+    widget.api.getContacts()
+    .then((data){
+        setState(() {
+          loading=false;
+          contacts=data;
+          
+        });
+      }
+    );
+
+    
+  }
+
 
   void _addContact() {
     setState(() {
@@ -54,7 +59,8 @@ class _ContactScreenState extends State<ContactScreen> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body:ContactListing(
+      body:loading?Center(child:CircularProgressIndicator())
+      :ContactListing(
         contacts: contacts,
         onAdd: _addContact,
         onDelete: _deleteContact,
