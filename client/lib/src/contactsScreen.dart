@@ -24,21 +24,27 @@ class _ContactScreenState extends State<ContactScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadContact();
     
+
+    
+  }
+
+  void _loadContact([bool showSpinner=false]){
+    if (showSpinner) {
+       setState(() {
+          loading=true;
+        });
+    }
     widget.api.getContacts()
     .then((data){
         setState(() {
           loading=false;
           contacts=data;
-          
         });
       }
     );
-
-    
   }
-
-
   void _addContact() async{
     final faker=Faker();
     final person=faker.person;
@@ -73,7 +79,9 @@ class _ContactScreenState extends State<ContactScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: (){},
+            onPressed: (){
+              _loadContact(true);
+            },
             tooltip: 'Refresh List',
             child: Icon(Icons.refresh),
             backgroundColor: Colors.purple
