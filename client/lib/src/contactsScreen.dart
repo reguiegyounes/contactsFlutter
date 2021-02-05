@@ -39,13 +39,14 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
 
-  void _addContact() {
+  void _addContact() async{
+    final faker=Faker();
+    final person=faker.person;
+    final fullName='${person.firstName()} ${person.lastName()}';
+    final contact=Contact(name:fullName);
+    final createContact=await widget.api.createContact(contact);
     setState(() {
-      final faker=Faker();
-      final person=faker.person;
-      final fullName='${person.firstName()} ${person.lastName()}';
-
-      contacts.add(Contact.fromJson({'name':fullName}));
+      contacts.add(createContact);
     });
   }
   void _deleteContact(String id) {
