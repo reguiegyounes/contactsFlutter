@@ -13,17 +13,12 @@ class Contact {
         this.name,
     });
 
-    String get initials{
-      final names=name.split(' ');
-      var shortCut='';
-      for (var i = 0; i < names.length; i++) {
-        shortCut=shortCut+names[i].substring(0,1);
-      }
-      return shortCut;
-    }
+    
 
     factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-        id: json['_id'],
+        
+        id: json['_id'].toString().replaceAll('ObjectId(\"','')
+                                  .replaceAll('\")',''),
         name: json['name'],
     );
 

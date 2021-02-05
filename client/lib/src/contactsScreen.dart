@@ -2,6 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'contactListing.dart';
 import 'api.dart';
+import 'model/contactModel.dart';
 
 
 
@@ -16,7 +17,7 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   
-  List contacts=[];
+  List<Contact> contacts=[];
   bool loading =true;
 
   @override
@@ -42,13 +43,14 @@ class _ContactScreenState extends State<ContactScreen> {
     setState(() {
       final faker=Faker();
       final person=faker.person;
+      final fullName='${person.firstName()} ${person.lastName()}';
 
-      contacts.add({'name':'${person.firstName()} ${person.lastName()}'});
+      contacts.add(Contact.fromJson({'name':fullName}));
     });
   }
   void _deleteContact(String id) {
     setState(() {
-      contacts.removeWhere((contact) => contact['name']==id);
+      contacts.removeWhere((contact) => contact.id==id);
     });
   }
 

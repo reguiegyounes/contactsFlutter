@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'noContacts.dart';
+import 'model/contactModel.dart';
 
 class ContactListing extends StatelessWidget {
-  final List contacts;
+  final List<Contact> contacts;
   final VoidCallback onAdd;
   final Function(String id) onDelete;
+
+  String  initialsName(String name){
+      final names=name.split(' ');
+      var shortCut='';
+      for (var i = 0; i < names.length; i++) {
+        shortCut=shortCut+names[i].substring(0,1);
+      }
+      return shortCut;
+    }
   ContactListing({this.onAdd,this.contacts,this.onDelete});
   @override
   Widget build(BuildContext context) {
@@ -20,12 +30,12 @@ class ContactListing extends StatelessWidget {
             child: ListTile(
               leading: CircleAvatar(
                 radius: 30,
-                child: Text('SA'),
+                child: Text(initialsName(contact.name).toUpperCase()),
               ),
-              title: Text(contact['name']),
+              title: Text(contact.name),
               trailing: FlatButton(
                 onPressed:(){
-                  onDelete(contact['name']);
+                  onDelete(contact.id);
                 },
                 child:Icon(
                   Icons.delete,
