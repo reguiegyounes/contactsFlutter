@@ -18,4 +18,10 @@ class ContactsApi {
   }
 
 
+  Future deleteContact(String id)async{
+    final response=await _dio.delete('/$id');
+    return response.data;
+  }
+
+
 }

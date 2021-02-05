@@ -49,7 +49,8 @@ class _ContactScreenState extends State<ContactScreen> {
       contacts.add(createContact);
     });
   }
-  void _deleteContact(String id) {
+  void _deleteContact(String id) async {
+    await widget.api.deleteContact(id);
     setState(() {
       contacts.removeWhere((contact) => contact.id==id);
     });
