@@ -16,12 +16,26 @@ void start() async {
     await db.open();
     final coll =db.collection('contacts');
 
-
+    
     // server
     const port=8081;
     final serv=Sevr();
 
+    serv.options('/', [
+      (req,res){
+        setCors(req, res);
+        return res.status(200);
+      }
+    ]);
+    serv.options('/:id', [
+      (req,res){
+        setCors(req, res);
+        return res.status(200);
+      }
+    ]);
+
     serv.get('/', [
+      setCors,
       (ServRequest request,ServResponse response) async{
         
         final contacts=await coll.find().toList();
@@ -31,6 +45,7 @@ void start() async {
     ]);
 
     serv.post('/', [
+      setCors,
       (ServRequest request,ServResponse response) async{
 
         final contact=Contact(name:request.body['name']);
@@ -43,6 +58,7 @@ void start() async {
 
 
     serv.delete('/:id', [
+      setCors,
       (ServRequest request,ServResponse response) async{
 
         await coll.remove(
@@ -65,4 +81,10 @@ void start() async {
   
  
   
+}
+void setCors(ServRequest request,ServResponse response) async{
+    response.response.headers.add('Access-Control-Allow-Origin', '*');
+    response.response.headers.add('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    response.response.headers.add('Access-Control-Allow-Headers', 'Origin, Content-Type');
+
 }
